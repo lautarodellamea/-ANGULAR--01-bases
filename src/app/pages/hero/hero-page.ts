@@ -1,5 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
 @Component({
   templateUrl: './hero-page.html',
@@ -10,6 +10,15 @@ export class HeroPage {
 
   protected name = signal('ironman');
   protected age = signal(45);
+
+  // las señales computadas son de solo lectura, no se pueden modificar, solo se pueden leer
+  heroDescription = computed(() => {
+    const description = `${this.name()} - ${this.age()}`;
+    return description;
+  });
+
+  // cada vez que la señal name cambie, la señal capitalizeName se actualizará,e s decir se vuelve a llamar la función
+  capitalizeName = computed(() => this.name().toUpperCase());
 
   protected getHeroDescription(): string {
     return `${this.name()} - ${this.age()}`;
